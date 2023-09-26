@@ -32,9 +32,13 @@ app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ApplicationDbContext>();
-    context.Database.Migrate();
+    try {
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        context.Database.Migrate();
+    } catch (Exception ex) {
+        Console.WriteLine("Error: " + ex.Message);
+    }
 }
 
 app.Run();
